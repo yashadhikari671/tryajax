@@ -1,0 +1,98 @@
+﻿@*@model IEnumerable<Tryajax.Models.Student>*@
+@model Student
+
+
+@{
+    ViewData["Title"] = "Main Page";
+}
+<br />
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open Modal</button>
+
+<table class="table table-bordered table-striped align-content-center">
+    <thead>
+        <tr>
+
+            <th>Name</th>
+            <th>Email</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in ViewBag.student)
+        {
+            <tr>
+
+                <td>@obj.Name</td>
+                <td>@obj.Email</td>
+
+                <td>
+                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.id" class="btn btn-primary mx-2">
+                        <i class="bi bi-pencil-square"></i>Edit
+                    </a>
+                    <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.id" class="btn btn-danger">
+                        <i class="bi bi-trash3-fill"></i>delete
+                    </a>
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+@*<div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="Index" asp-controller="Home" data-ajax-method="POST">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <partial name="~/Views/Home/_StudentDetailsView.cshtml" model="Model" />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Save changes">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
+
+<form asp-action="Create" asp-controller="Home" data-ajax-method="POST" data-ajax="true"  data-ajax-complete="OnComplete">
+        <div id="exampleModal" class="modal fade"  >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Student Details Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="studentFormDetails">
+                        <partial name="~/Views/Home/_StudentDetailsView.cshtml" model="@Model" />
+                    </div>
+                    <div class="modal-footer">
+                        <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript">
+        function OnComplete() {
+            $("#exampleModal").modal("hide");
+        }
+    </script>
+}
